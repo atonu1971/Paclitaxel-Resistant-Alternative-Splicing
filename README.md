@@ -44,9 +44,6 @@ This workflow should reproduce gene-expression-based separation of resistant and
 - Branch 1: Gene quantification → Sleuth → PCA / Volcano / Heatmap  
 - Branch 2: rMATS → Significant AS events → Splicing volcano → Sashimi plot  
 
-
----
-
 ## Note
 
 A preliminary feasibility check indicates that all required software packages and pipelines (Sleuth, rMATS, STAR, FastQC, MultiQC, Trimmomatic) are readily available and well-documented. The latest stable versions of each software will be used.
