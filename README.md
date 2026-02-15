@@ -30,9 +30,9 @@ The paper states that the RNA-seq data are deposited in GEO.
 
 ## Expected Outcomes
 
-This workflow should reproduce gene-expression-based separation of resistant and sensitive samples (PCA, volcano plot, heatmap) and extend the analysis by identifying resistance-associated alternative splicing programs (event summary, splicing volcano, and sashimi validation). If strong *ABCB1* differential alternative splicing event is confirmed, the project will test whether splicing changes occur in ABC transporters, cytoskeletal genes, or RNA-processing regulators as an additional layer of adaptation.
+This workflow should reproduce gene-expression-based separation of resistant and sensitive samples (PCA, volcano plot, heatmap) and extend the analysis by identifying resistance-associated alternative splicing programs (event summary, splicing volcano, and sashimi validation). If strong *ABCB1* differential alternative splicing event is confirmed, the project will test whether splicing changes occur in ABC transporters, cytoskeletal genes, or RNA-processing regulators as an additional layer of adaptation. 
 
-*A preliminary feasibility check indicates that all required software packages and pipelines (Sleuth, rMATS, STAR, FastQC, MultiQC, Trimmomatic) are readily available and well-documented. The latest stable versions of each software will be used.*
+A preliminary feasibility check indicates that all required software packages and pipelines (Sleuth, rMATS, STAR, FastQC, MultiQC, Trimmomatic) are readily available and well-documented. The latest stable versions of each software will be used.
 
 ---
 
