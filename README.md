@@ -139,6 +139,47 @@ write.table(tT, file = "output/GEO2R_processed_count_matrix.tsv",
 The final output table includes the following columns: `GeneID`, `padj`, `pvalue`, `lfcSE`, `stat`, `log2FoldChange`, `baseMean`, `Symbol`, and `Description`.
  
 ---
+### Preliminary Visualization
+ 
+#### Volcano Plot
+ 
+Volcano plots were generated directly from the DESeq2 results object `r` using base R graphics, for both the OVCAR3 (gsms: `"000111XXXXXXXXXXXXX"`) and TOV21G (gsms: `"XXXXXX000111XXXXXXX"`) comparisons. The plotting procedure was as follows:
+ 
+All expressed genes were first plotted as a background scatter using `plot()`, with `r$log2FoldChange` on the x-axis and `-log10(r$padj)` on the y-axis (point size `cex = 0.5`, filled circles `pch = 20`). A second layer of colored points was then overlaid using `with(subset(r, padj < 0.05 & abs(log2FoldChange) >= 0), points(...))`, restricted to genes meeting the significance threshold of padj < 0.05. Point color was assigned based on the sign of log2FoldChange: genes with negative log2FC (higher expression in resistant) were colored red (`#FF3030`), and genes with positive log2FC (higher expression in sensitive) were colored blue (`#00BFFF`). No minimum fold change threshold was applied beyond the significance filter, so all statistically significant genes regardless of effect size are shown in color. A legend indicating "down" (blue) and "up" (red) relative to the resistant condition was placed in the lower-left corner. The plot title follows the format `groups[1] vs groups[2]`, i.e., `OV3_S vs OV3_R` or `tov_21gS vs tov21g_R`.
+ 
+The key code block used was:
+ 
+```r
+old.pal <- palette(c("#00BFFF", "#FF3030"))
+plot(r$log2FoldChange, -log10(r$padj),
+     main=paste(groups[1], "vs", groups[2]),
+     xlab="log2FC", ylab="-log10(Padj)", pch=20, cex=0.5)
+with(subset(r, padj<0.05 & abs(log2FoldChange) >= 0),
+     points(log2FoldChange, -log10(padj),
+            pch=20, col=(sign(log2FoldChange) + 3)/2, cex=1))
+legend("bottomleft", title="Padj<0.05",
+       legend=c("down", "up"), pch=20, col=1:2)
+palette(old.pal)
+```
+ 
+#### UMAP Plot
+ 
+To visualize global transcriptomic separation between sensitive and resistant samples, a UMAP (Uniform Manifold Approximation and Projection) plot was generated using the `umap` R package. Normalized count data were first extracted from the DESeq2 object using `counts(ds, normalized = TRUE)` and log10-transformed with a pseudocount of 1: `dat <- log10(counts(ds, normalized = T) + 1)`. Duplicate gene rows were removed prior to UMAP calculation using `dat[!duplicated(dat), ]` to avoid redundancy artifacts. UMAP was then applied to the transposed matrix (samples as rows, genes as columns) with parameters `n_neighbors = 3` and `random_state = 123` for reproducibility. Each sample is plotted as a filled circle (`pch = 20`, `cex = 1.5`) colored by group membership using the default palette (green = sensitive, purple = resistant). A legend is placed outside the plot area to the right using `inset = c(-0.15, 0)`.
+ 
+The key code block used was:
+ 
+```r
+library(umap)
+dat <- log10(counts(ds, normalized = T) + 1)
+dat <- dat[!duplicated(dat), ]
+ump <- umap(t(dat), n_neighbors = 3, random_state = 123)
+plot(ump$layout, main="UMAP plot, nbrs=3",
+     xlab="", ylab="", col=gs, pch=20, cex=1.5)
+legend("topright", inset=c(-0.15,0),
+       legend=groups, pch=20,
+       col=1:length(groups), title="Group", pt.cex=1.5)
+```
+ 
  ### Transporter- and Ion-Focused Gene Set Definition
 
 To test the coordination hypothesis, two a priori gene sets will be defined:
