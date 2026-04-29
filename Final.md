@@ -28,7 +28,7 @@ Two gene sets were defined based on HGNC gene symbol prefixes. ABC transporters 
 
 ### 2.3 Differential Expression and Visualization
 
-LFC values were sign-inverted prior to visualization so that positive values represent up-regulation in resistant cells relative to sensitive cells. Adjusted p-values of zero were replaced with 1e-300 to enable finite log10 transformation. Genes were classified as significant if padj < 0.05 and |LFC| >= 1. Volcano plots were generated in R (v4.1.1) using ggplot2 and ggrepel, with both gene sets overlaid using a four-colour scheme distinguishing ABC vs. ion transport and significant vs. non-significant calls. The top 10 most significant genes per gene set were labelled.
+LFC values were sign-inverted prior to visualization so that positive values represent up-regulation in resistant cells relative to sensitive cells. Adjusted p-values of zero were replaced with 1e-300 to enable finite log10 transformation. Genes were classified as significant if padj < 0.05 and |LFC| >= 1. Volcano plots were generated in R  using ggplot2 and ggrepel,distinguishing ABC vs. ion transport and significant vs. non-significant calls. The top 10 most significant genes per gene set were labelled.
 
 ### 2.4 Enrichment Analysis
 
